@@ -1,4 +1,13 @@
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta property="og:title" content="{{ .Site.Title }}" />
+<meta name="description"
+        content="{{ range .Site.Params.keywords}}{{.}}, {{ end }}" />
+{{- template "_internal/opengraph.html" . -}}
+<title>
+    {{ .Site.Title }}
+</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css">
 {{- $styles := resources.Get "style.scss" | resources.ExecuteAsTemplate "style.scss" . | resources.ToCSS | resources.Minify }}
 <link rel="stylesheet" href="{{ $styles.RelPermalink }}">
+<link rel="alternate" type="application/rss+xml" href="{{ "index.xml" | absURL}}" title="{{ .Site.Title }}">

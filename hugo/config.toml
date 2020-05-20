@@ -3,3 +3,25 @@ languageCode = "zh-CN"
 title = "MOTSS Archive Center"
 theme = "index"
 disableHugoGeneratorInject = true
+
+[params]
+  keywords = [
+      "motss",
+      "no404",
+      "archive",
+      "lgbt",
+      "lgbtq",
+      "lgbtqi",
+      "community",
+      "lesbian",
+      "transgender",
+      "gay",
+      "bisexual",
+      "queer",
+      "wechat",
+      "同志",
+      "杭州",
+      "浙大",
+      "大学生",
+      "gay群"
+  ]
