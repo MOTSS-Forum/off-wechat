@@ -1,0 +1,4 @@
+baseURL = "https://archives.motss.info/"
+languageCode = "zh-CN"
+title = "MOTSS Archive Center"
+theme = "index"

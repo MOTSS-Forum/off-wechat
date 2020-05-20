@@ -1,0 +1,20 @@
+{{ define "main" }}
+
+<h1>{{ .Site.Title }}</h1>
+<h2>目录</h2>
+<ul>
+    {{ range sort .Site.Data.index.items "date" "desc" }}
+    <li>
+        <div><a href="./{{ .path }}">
+                {{ .title }}
+            </a>
+            <br>
+            <mark>{{ .author }}</mark>
+            <mark>{{ .owner }}</mark>
+            <mark>{{ .date }}</mark>
+            <p>{{ .description }}</p>
+        </div>
+    </li>
+    {{ end }}
+</ul>
+{{ end }}
