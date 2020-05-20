@@ -1,1 +1,3 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css">
+{{- $styles := resources.Get "style.scss" | resources.ExecuteAsTemplate "style.scss" . | resources.ToCSS | resources.Minify }}
+<link rel="stylesheet" href="{{ $styles.RelPermalink }}">
