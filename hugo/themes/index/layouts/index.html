@@ -9,15 +9,15 @@
         <a href="./{{ .path }}">
             <div class="item">
                 <div class="item__title">
-                    {{ .title }}
+                    {{ .title | htmlUnescape }}
                 </div>
                 <div class="item__meta">
-                    <span>{{ .author }}</span>
-                    <span>{{ .owner }}</span>
+                    <span>{{ .author | htmlUnescape }}</span>
+                    <span>{{ .owner | htmlUnescape }}</span>
                     <span>{{ .date }}</span>
                 </div>
                 <div class="item__desc">
-                    {{ .description }}
+                    {{ .description | htmlUnescape }}
                 </div>
             </div>
         </a>

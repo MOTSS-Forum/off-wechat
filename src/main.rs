@@ -1,6 +1,3 @@
-#![feature(async_await)]
-
-use futures::Future;
 use futures::StreamExt;
 use nanoid;
 use nanoid::generate;
