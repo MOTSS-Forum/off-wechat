@@ -6,6 +6,7 @@ use std::convert::From;
 use std::fs::read_to_string;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
+use std::path::Path;
 use std::process::Command;
 use telegram_bot::*;
 use tokio::fs::OpenOptions;
@@ -60,18 +61,58 @@ async fn main() -> Result<(), ArchiveError> {
                         .iter()
                         .any(|&i| UserId::new(i) == message.from.id)
                     {
-                        for e in entities.iter() {
-                            if e.kind == MessageEntityKind::Url {
-                                let url = data.as_str()
-                                    [(e.offset as usize)..(e.offset as usize + e.length as usize)]
-                                    .to_string();
-                                let output =
-                                    format!("{}/{}.html", config.output_path, generate(10));
-                                Command::new(&config.monolith_path)
-                                    .args(&[&url, "-s", "-o", &output])
-                                    .output()?;
-                                post_process(&output, &config.index_path).await?;
-                                api.send(message.text_reply("Archived.")).await?;
+                        let text = data.as_str();
+                        if text.starts_with('/') {
+                            match text.split(' ').next() {
+                                Some(command) => match command {
+                                    "/update" => {
+                                        Command::new("/usr/bin/hugo")
+                                            .args(&[
+                                                "-s",
+                                                "hugo",
+                                                "-d",
+                                                &format!("../{}", config.output_path),
+                                            ])
+                                            .output()?;
+                                        api.send(message.text_reply("Page updated.")).await?;
+                                    }
+                                    _ => {
+                                        api.send(message.text_reply("Invalid command.")).await?;
+                                    }
+                                },
+                                None => {
+                                    api.send(message.text_reply("Invalid command.")).await?;
+                                }
+                            }
+                        } else {
+                            for e in entities.iter() {
+                                if e.kind == MessageEntityKind::Url {
+                                    let url = text[(e.offset as usize)
+                                        ..(e.offset as usize + e.length as usize)]
+                                        .to_string();
+                                    let mut output =
+                                        format!("{}/{}.html", config.output_path, generate(10));
+                                    while Path::new(&output).exists() {
+                                        output =
+                                            format!("{}/{}.html", config.output_path, generate(10));
+                                    }
+                                    match Command::new(&config.monolith_path)
+                                        .args(&[&url, "-s", "-o", &output])
+                                        .output()
+                                    {
+                                        Err(e) => {
+                                            api.send(message.text_reply(format!(
+                                                "Internal error {:?} when trying to archive {}.",
+                                                e, url
+                                            )))
+                                            .await?;
+                                        }
+                                        Ok(_) => {
+                                            post_process(&output, &config.index_path).await?;
+                                            api.send(message.text_reply("Url archived.")).await?;
+                                        }
+                                    }
+                                }
                             }
                         }
                     }

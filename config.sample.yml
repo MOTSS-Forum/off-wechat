@@ -1,0 +1,6 @@
+bot_token: "bot_token"
+admins: [-0]
+dir: "pages"
+monolith_path: "/usr/bin/env monolith"
+output_path: "pages/"
+index_path: "pages/index.yml"
