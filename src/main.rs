@@ -96,10 +96,10 @@ async fn main() -> Result<(), ArchiveError> {
                                         output =
                                             format!("{}/{}.html", config.output_path, generate(10));
                                     }
-                                    match Command::new(&config.monolith_path)
+                                    let cmd_res = Command::new(&config.monolith_path)
                                         .args(&[&url, "-s", "-o", &output])
-                                        .output()
-                                    {
+                                        .output();
+                                    match cmd_res {
                                         Err(e) => {
                                             api.send(message.text_reply(format!(
                                                 "Internal error {:?} when trying to archive {}.",
@@ -108,8 +108,17 @@ async fn main() -> Result<(), ArchiveError> {
                                             .await?;
                                         }
                                         Ok(_) => {
-                                            post_process(&output, &config.index_path).await?;
-                                            api.send(message.text_reply("Url archived.")).await?;
+                                            if Path::new(&output).exists() {
+                                                post_process(&output, &config.index_path).await?;
+                                                api.send(message.text_reply("Url archived."))
+                                                    .await?;
+                                            } else {
+                                                api.send(message.text_reply(format!(
+                                                    "No such file. ({})",
+                                                    &output
+                                                )))
+                                                .await?;
+                                            }
                                         }
                                     }
                                 }
