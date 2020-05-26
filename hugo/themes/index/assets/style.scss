@@ -1,19 +1,6 @@
-$light-grey: rgb(245, 245, 245);
-$text-color: rgb(32, 32, 32);
-
-.rainbow {
-    background: red;
-    background: -webkit-linear-gradient(left, orange , yellow, green, cyan, blue, violet);
-    background: -o-linear-gradient(right, orange, yellow, green, cyan, blue, violet);
-    background: -moz-linear-gradient(right, orange, yellow, green, cyan, blue, violet);
-    background: linear-gradient(to right, orange , yellow, green, cyan, blue, violet);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
 body {
     a {
-        color: $text-color;
+        color: var(--nc-tx-2);
         text-decoration: none;
     }
 
@@ -38,7 +25,7 @@ body {
 
         .item__meta {
             font-size: 0.8em;
-            color: dimgray;
+            color: var(--nc-tx-2);
             padding-bottom: 0.2em;
         }
 
@@ -48,6 +35,6 @@ body {
     }
 
     .item:hover {
-        background-color: $light-grey;
+        background-color: var(--nc-bg-2);
     }
 }
