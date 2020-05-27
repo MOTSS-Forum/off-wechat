@@ -16,6 +16,7 @@ body {
     .item {
         padding: 0.5em;
         border-radius: 4px;
+        position: relative;
 
         .item__title {
             font-size: 1.2em;
@@ -34,7 +35,14 @@ body {
         }
     }
 
-    .item:hover {
-        background-color: var(--nc-bg-2);
+    .item:hover::after {
+        background-image: url("/pride.svg");
+        opacity: 0.1;
+        content: "";
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+        left: 0px;
     }
 }
