@@ -156,7 +156,7 @@ async fn post_process(output: &str, dest: &str) -> Result<(), ArchiveError> {
             } else if content.contains("property=\"og:title\"") {
                 item.title = content.split('\"').nth(3).unwrap().trim().to_string();
                 continue;
-            } else if content.contains("js_name") {
+            } else if content.contains("id=\"js_name\"") {
                 owner_flag = true;
                 continue;
             } else if owner_flag {
